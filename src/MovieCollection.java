@@ -397,7 +397,63 @@ public class MovieCollection
 
     private void listHighestRevenue()
     {
+        ArrayList<Movie> highestRevMovies = new ArrayList<Movie>();
+        for(Movie m : movies) {
+            if(highestRevMovies.size() >= 50) {
+                if(highestRevMovies.get(49).getRevenue() < m.getRevenue()) {
+                    highestRevMovies.remove(49);
+                    int addAtIndex = -1;
+                    for(int i = 0; i < highestRevMovies.size(); i++) {
+                        if(highestRevMovies.get(i).getRevenue() <= m.getRevenue()) {
+                            addAtIndex = i;
+                            break;
+                        }
+                    }
+                    if(addAtIndex == -1) {
+                        highestRevMovies.add(m);
+                    }
+                    else{
+                        highestRevMovies.add(addAtIndex,m);
+                    }
+                }
+            }
+            else{
+                if(highestRevMovies.size() == 0) {
+                    highestRevMovies.add(m);
+                }
+                else{
+                    int addAtIndex = -1;
+                    for(int i = 0; i < highestRevMovies.size(); i++) {
+                        if(highestRevMovies.get(i).getRevenue() <= m.getRevenue()) {
+                            addAtIndex = i;
+                            break;
+                        }
+                    }
+                    if(addAtIndex == -1) {
+                        highestRevMovies.add(m);
+                    }
+                    else{
+                        highestRevMovies.add(addAtIndex,m);
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < highestRevMovies.size(); i++) {
+            System.out.println((i+1) + ". " + highestRevMovies.get(i).getTitle() + ": " + highestRevMovies.get(i).getRevenue());
+        }
 
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = highestRevMovies.get(choice - 1);
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void importMovieList(String fileName)
